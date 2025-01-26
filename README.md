@@ -48,18 +48,19 @@ Ensure the following are installed on your system:
 5. **Run the App:**:  
     Folder Structure 🗂️
     The project follows Clean Architecture principles and organizes code into layers:
-    lib/  
-    ├── core/            # Shared resources (e.g., error handling, utilities)  
-    │   ├── network/     # Network and API handling  
-    │   └── theme/       # Application-wide themes and styles  
-    ├── features/        # Feature-specific code  
-    │   ├── weather/     # Weather-related functionality  
-    │   │   ├── data/    # Data sources, models, and repositories  
-    │   │   ├── domain/  # Business logic (use cases and entities)  
-    │   │   └── presentation/  
-    │   │       ├── bloc/      # Bloc files for state management  
-    │   │       └── screens/   # UI screens (WeatherScreen, SearchScreen)  
-    ├── main.dart        # Entry point of the app  
+    ```
+       lib/  
+       ├── core/            # Shared resources (e.g., error handling, utilities)  
+       │   ├── network/     # Network and API handling  
+       │   └── theme/       # Application-wide themes and styles  
+       ├── features/        # Feature-specific code  
+       │   ├── weather/     # Weather-related functionality  
+       │   │   ├── data/    # Data sources, models, and repositories  
+       │   │   ├── domain/  # Business logic (use cases and entities)  
+       │   │   └── presentation/  
+       │   │       ├── bloc/      # Bloc files for state management  
+       │   │       └── screens/   # UI screens (WeatherScreen, SearchScreen)  
+       ├── main.dart        # Entry point of the app  
 ## Approach ✨  
   ### 1. Clean Architecture:
         Organized code into layers (Data, Domain, Presentation) to ensure separation of concerns and scalability.
