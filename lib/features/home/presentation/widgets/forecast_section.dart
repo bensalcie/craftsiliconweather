@@ -134,6 +134,6 @@ class _ForecastSectionState extends State<ForecastSection> {
 
   void _fetchForecast() {
     context.read<GetForecastBloc>().add(GetForecast(
-        weatherBody: ForecastBody(lat: -1.286389, lon: 36.817223, cnt: 7)));
+        weatherBody: ForecastBody(lat: -1.286389, lon: 36.817223, cnt: 5)));
   }
 }
