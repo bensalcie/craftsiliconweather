@@ -1,4 +1,3 @@
-
 import 'package:craftsiliconweather/core/common/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 

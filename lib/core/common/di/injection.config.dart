@@ -35,6 +35,9 @@ import '../../../features/home/presentation/bloc/get_forecast_bloc.dart'
     as _i931;
 import '../../../features/home/presentation/bloc/get_weather_bloc.dart'
     as _i695;
+import '../../../features/home/presentation/bloc/location_permission_bloc.dart'
+    as _i761;
+import '../data/datasources/local/storage_utils.dart' as _i910;
 import '../network/dio_config.dart' as _i150;
 import 'module_injection.dart' as _i237;
 
@@ -55,6 +58,10 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.singleton<_i281.MethodChannel>(() => registerModules.channel);
+    gh.lazySingleton<_i910.StorageUtils>(
+        () => _i910.StorageUtils(gh<_i460.SharedPreferences>()));
+    gh.factory<_i761.LocationPermissionBloc>(
+        () => _i761.LocationPermissionBloc(gh<_i910.StorageUtils>()));
     gh.factory<String>(
       () => registerModules.baseUrl,
       instanceName: 'BaseUrl',
@@ -75,8 +82,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1036.GetForecastUseCase(gh<_i986.GetForecastRepository>()));
     gh.lazySingleton<_i889.GetWeatherUseCase>(
         () => _i889.GetWeatherUseCase(gh<_i356.GetWeatherRepository>()));
-    gh.factory<_i695.GetWeatherBloc>(
-        () => _i695.GetWeatherBloc(gh<_i889.GetWeatherUseCase>()));
+    gh.factory<_i695.GetWeatherBloc>(() => _i695.GetWeatherBloc(
+          gh<_i889.GetWeatherUseCase>(),
+          gh<_i910.StorageUtils>(),
+        ));
     gh.factory<_i931.GetForecastBloc>(
         () => _i931.GetForecastBloc(gh<_i1036.GetForecastUseCase>()));
     return this;

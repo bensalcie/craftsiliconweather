@@ -6,6 +6,7 @@ import 'package:craftsiliconweather/core/common/utils/app_utils.dart';
 import 'package:craftsiliconweather/features/home/presentation/bloc/get_weather_bloc.dart';
 import 'package:craftsiliconweather/features/home/presentation/widgets/current_weather_status.dart';
 import 'package:craftsiliconweather/features/home/presentation/widgets/forecast_section.dart';
+import 'package:craftsiliconweather/features/home/presentation/widgets/location_permission_view.dart';
 import 'package:craftsiliconweather/features/home/presentation/widgets/weather_details_card.dart';
 import 'package:craftsiliconweather/features/home/presentation/widgets/weather_header.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +80,7 @@ class HomePage extends StatelessWidget {
                   shrinkWrap: true,
                   children: [
                     WeatherHeader(weather: weather),
+                    LocationPermissionView(),
                     CurrentWeatherStatus(weather: weather),
                     const SizedBox(height: app_padding),
                     Row(

@@ -12,4 +12,5 @@ const search_icon = 'assets/images/search_icon.svg';
 const home_label = 'Home';
 const search_label = 'Search';
 
-
+//Keys.
+const locationskey = 'locations-key';

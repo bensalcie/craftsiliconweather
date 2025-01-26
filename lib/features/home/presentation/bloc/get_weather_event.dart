@@ -9,9 +9,10 @@ class GetWeatherEvent extends Equatable {
 
 class GetWeather extends GetWeatherEvent {
   final WeatherBody weatherBody;
+  final bool isSearchPage;
 
-  const GetWeather({required this.weatherBody});
+  const GetWeather({required this.weatherBody, required this.isSearchPage});
 
   @override
-  List<Object> get props => [weatherBody];
+  List<Object> get props => [weatherBody, isSearchPage];
 }
