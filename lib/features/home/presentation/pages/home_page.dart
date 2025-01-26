@@ -2,13 +2,12 @@ import 'package:craftsiliconweather/core/common/constants/app_strings.dart';
 import 'package:craftsiliconweather/core/common/constants/dimens.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_shimmer_vertical_loader.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_medium.dart';
-import 'package:craftsiliconweather/core/common/utils/app_utils.dart';
 import 'package:craftsiliconweather/features/home/presentation/bloc/get_weather_bloc.dart';
 import 'package:craftsiliconweather/features/home/presentation/widgets/current_weather_status.dart';
 import 'package:craftsiliconweather/features/home/presentation/widgets/forecast_section.dart';
 import 'package:craftsiliconweather/features/home/presentation/widgets/location_permission_view.dart';
-import 'package:craftsiliconweather/features/home/presentation/widgets/weather_details_card.dart';
 import 'package:craftsiliconweather/features/home/presentation/widgets/weather_header.dart';
+import 'package:craftsiliconweather/features/home/presentation/widgets/weather_summary_small.dart';
 import 'package:craftsiliconweather/themes/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -104,31 +103,7 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(height: app_small_padding),
                         CurrentWeatherStatus(weather: weather),
                         const SizedBox(height: app_small_padding),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            WeatherDetailCard(
-                              icon: Icons.water_drop_outlined,
-                              label: "Humidity",
-                              value: "${weather.main?.humidity ?? 0}%",
-                            ),
-                            WeatherDetailCard(
-                              icon: Icons.air,
-                              label: "Wind Speed",
-                              value: "${weather.wind?.speed ?? 0} m/s",
-                            ),
-                            WeatherDetailCard(
-                              icon: Icons.wb_sunny_outlined,
-                              label: "Sunrise",
-                              value: formatTime(weather.sys?.sunrise),
-                            ),
-                            WeatherDetailCard(
-                              icon: Icons.nights_stay_outlined,
-                              label: "Sunset",
-                              value: formatTime(weather.sys?.sunset),
-                            ),
-                          ],
-                        ),
+                        WeatherSummarySmall(weather: weather),
                         const SizedBox(height: app_padding),
                         const ForecastSection()
                       ],

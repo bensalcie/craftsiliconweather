@@ -92,8 +92,10 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i1073.GetForecastRemoteDataSource>()));
     gh.lazySingleton<_i1036.GetForecastUseCase>(
         () => _i1036.GetForecastUseCase(gh<_i986.GetForecastRepository>()));
-    gh.factory<_i931.GetForecastBloc>(
-        () => _i931.GetForecastBloc(gh<_i1036.GetForecastUseCase>()));
+    gh.factory<_i931.GetForecastBloc>(() => _i931.GetForecastBloc(
+          gh<_i1036.GetForecastUseCase>(),
+          gh<_i910.StorageUtils>(),
+        ));
     return this;
   }
 }

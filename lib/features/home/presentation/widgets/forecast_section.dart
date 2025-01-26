@@ -1,6 +1,5 @@
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_shimmer_grid_vertical_loader.dart';
 import 'package:craftsiliconweather/core/common/utils/app_utils.dart';
-import 'package:craftsiliconweather/features/home/data/models/forecast_body.dart';
 import 'package:craftsiliconweather/features/home/presentation/bloc/get_forecast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -136,7 +135,6 @@ class _ForecastSectionState extends State<ForecastSection> {
   }
 
   void _fetchForecast() {
-    context.read<GetForecastBloc>().add(GetForecast(
-        weatherBody: ForecastBody(lat: -1.286389, lon: 36.817223, cnt: 5)));
+    context.read<GetForecastBloc>().add(GetForecast());
   }
 }

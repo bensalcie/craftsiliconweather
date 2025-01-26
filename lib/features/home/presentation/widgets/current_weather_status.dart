@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:craftsiliconweather/core/common/constants/dimens.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_medium.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_small_no_tap.dart';
@@ -25,9 +26,16 @@ class CurrentWeatherStatus extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image.asset(
-              'assets/images/logo.png',
+            CachedNetworkImage(
               height: 130,
+              imageUrl:
+                  "https://openweathermap.org/img/wn/${weather?.weather?.first?.icon}@4x.png",
+              errorWidget: (context, url, error) => Image.asset(
+                filterQuality: FilterQuality.high,
+                fit: BoxFit.cover,
+                'assets/images/logo.png',
+                height: 130,
+              ),
             ),
             Expanded(
               child: Column(
