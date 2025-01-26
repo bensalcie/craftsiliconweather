@@ -20,11 +20,12 @@ class _ForecastSectionState extends State<ForecastSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Ink(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.black87,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16), topRight: Radius.circular(16)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +46,7 @@ class _ForecastSectionState extends State<ForecastSection> {
                   child: AppShimmerGridVerticalLoader(
                     height: 100,
                     width: 100,
-                    itemCount: 5,
+                    itemCount: 6,
                     isCircular: false,
                     isRounded: true,
                     borderRadius: 16,

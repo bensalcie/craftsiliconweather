@@ -84,22 +84,21 @@ void showBottomSheetForm(
     required Widget view,
     Function()? onDialogDissmissed,
     bool isDismissible = true}) {
-    showModalBottomSheet<void>(
-      enableDrag: false,
-      context: context,
-      isDismissible: isDismissible,
-      useSafeArea: true,
-      isScrollControlled: true, // Allow the sheet to take up the full height
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(32), topRight: Radius.circular(32))),
-      builder: (BuildContext context) {
-        return view;
-      },
-    ).whenComplete(() {
-      onDialogDissmissed != null ? onDialogDissmissed() : null;
-    });
-  
+  showModalBottomSheet<void>(
+    enableDrag: false,
+    context: context,
+    isDismissible: isDismissible,
+    useSafeArea: true,
+    isScrollControlled: true, // Allow the sheet to take up the full height
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(32), topRight: Radius.circular(32))),
+    builder: (BuildContext context) {
+      return view;
+    },
+  ).whenComplete(() {
+    onDialogDissmissed != null ? onDialogDissmissed() : null;
+  });
 }
 
 void showPermissionDialog(BuildContext context) {
@@ -138,13 +137,11 @@ void showPermissionDialog(BuildContext context) {
           buttonRadius: app_padding,
           buttonTextColor: kDarkBannerColor,
           onPressed: () {
-
-                Navigator.of(context, rootNavigator: false).pop();
+            Navigator.of(context, rootNavigator: false).pop();
 
             context
                 .read<LocationPermissionBloc>()
                 .add(RequestLocationPermission());
-
           },
         ),
         const SizedBox(
@@ -187,7 +184,7 @@ void showPermanentDenialDialog(BuildContext context) {
           text: 'Open Settings',
           textAlign: TextAlign.start,
           onClick: () {
-                Navigator.of(context, rootNavigator: false).pop();
+            Navigator.of(context, rootNavigator: false).pop();
             openAppSettings();
           },
         ),
@@ -197,4 +194,13 @@ void showPermanentDenialDialog(BuildContext context) {
       ],
     ),
   );
+}
+
+extension StringExtension on String {
+  String capitalizeFirstLetter() {
+    if (isEmpty) {
+      return this;
+    }
+    return this[0].toUpperCase() + substring(1);
+  }
 }

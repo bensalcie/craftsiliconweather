@@ -1,4 +1,6 @@
 import 'package:craftsiliconweather/core/common/constants/dimens.dart';
+import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_medium.dart';
+import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_small_no_tap.dart';
 import 'package:craftsiliconweather/core/common/utils/app_utils.dart';
 import 'package:craftsiliconweather/features/home/data/models/weather_response.dart';
 import 'package:flutter/material.dart';
@@ -13,31 +15,42 @@ class CurrentWeatherStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          getWeatherIcon(weather.weather?[0]?.description ?? ''),
-          size: 120,
-          color: Colors.blueGrey[400],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: app_small_padding),
+      child: Ink(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(20),
         ),
-        Text(
-          "${weather.main?.temp ?? 'N/A'}°C",
-          style: TextStyle(
-            fontSize: 60,
-            fontWeight: FontWeight.bold,
-            color: Colors.blueGrey[800],
-          ),
+        child: Row(
+          children: [
+            Image.asset(
+              'assets/images/logo.png',
+              height: 120,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AppTextViewMedium(
+                    fontSize: 45,
+                    maxLines: 2,
+                    text: "${weather.main?.temp ?? 'N/A'}°C",
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 5),
+                  AppTextViewSubtitleSmallNoTap(
+                    text: (weather.weather?[0]?.description ?? '')
+                        .capitalizeFirstLetter(),
+                    textAlign: TextAlign.start,
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
-        const SizedBox(height: elements_small_padding),
-        Text(
-          weather.weather?[0]?.description ?? '',
-          style: TextStyle(
-            fontSize: 22,
-            color: Colors.blueGrey[600],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

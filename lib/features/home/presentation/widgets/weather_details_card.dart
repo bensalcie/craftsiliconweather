@@ -1,3 +1,5 @@
+import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_small_no_tap.dart';
+import 'package:craftsiliconweather/themes/theme.dart';
 import 'package:flutter/material.dart';
 
 class WeatherDetailCard extends StatelessWidget {
@@ -14,43 +16,38 @@ class WeatherDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.4,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            blurRadius: 8,
-            offset: const Offset(2, 2),
+    return Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 3),
+        child: Ink(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.05),
+            borderRadius: BorderRadius.circular(20),
           ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 36, color: Colors.blueGrey[600]),
-          const SizedBox(height: 10),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Colors.blueGrey[600],
-            ),
+          child: Column(
+            children: [
+              Icon(icon, size: 30, color: kLightColor),
+              const SizedBox(height: 5),
+              AppTextViewSubtitleSmallNoTap(
+                text: label,
+                fontSize: 9,
+                padding: 0,
+                maxLines: 1,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 5),
+              AppTextViewSubtitleSmallNoTap(
+                text: value,
+                maxLines: 2,
+                padding: 0,
+                fontSize: 10,
+                textAlign: TextAlign.start,
+              ),
+            ],
           ),
-          const SizedBox(height: 5),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueGrey[800],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

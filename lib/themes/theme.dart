@@ -2,7 +2,7 @@ import 'package:craftsiliconweather/core/common/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 
 Color kPrimaryColor = HexColor("#F4F5F7");
-Color kPrimaryDark = HexColor('#000000');
+Color kPrimaryDark = Colors.black87;
 Color kPageBackgroundLight = const Color.fromRGBO(244, 245, 247, 1);
 Color kPageBackgroundDark = HexColor('#333333');
 Color kTextActionBarLight = HexColor("#6E9232");
@@ -10,7 +10,7 @@ Color kTextActionBarDark = HexColor("#C9DCED");
 Color kIconThemeColorLight = HexColor("#1A2139");
 Color kIconThemeColorDark = HexColor("#E8F1D9");
 Color kBodyBackgroundLight = Colors.grey[200]!;
-Color kBodyBackgroundDark = Colors.grey[900]!;
+Color kBodyBackgroundDark = Colors.black87;
 Color kDarkBannerColor = HexColor('#333333');
 Color kInputTitleColor = HexColor("#515151");
 Color kTextInputBackgroundColor = HexColor("#F4F5F7");
@@ -43,10 +43,10 @@ class AppTheme {
       useMaterial3: true,
       primaryColorDark: kPrimaryDark,
       dialogTheme: DialogTheme(
-        backgroundColor: isDarkMode ? Colors.grey[850] : Colors.white,
+        backgroundColor: isDarkMode ? Colors.black87 : Colors.white,
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: isDarkMode ? Colors.black : Colors.white,
+        backgroundColor: isDarkMode ? Colors.black87 : Colors.white,
         //isDarkMode ? kPageBackgroundDark : kPageBackgroundLight,
         toolbarTextStyle: TextStyle(
           color: isDarkMode ? kTextActionBarDark : kTextActionBarLight,
@@ -92,7 +92,7 @@ class AppTheme {
         backgroundColor: isDarkMode ? Colors.grey[850] : Colors.white,
       ),
       iconTheme: IconThemeData(color: isDarkMode ? Colors.white : kPrimaryDark),
-      scaffoldBackgroundColor: isDarkMode ? Colors.black : Colors.white,
+      scaffoldBackgroundColor: isDarkMode ? Colors.black87 : Colors.white,
     );
   }
 }

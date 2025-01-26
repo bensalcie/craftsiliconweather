@@ -31,7 +31,7 @@ class WeatherResponse {
   WeatherResponse.fromJson(Map<String, dynamic> json) {
     coord = json['coord'] != null ? Coord.fromJson(json['coord']) : null;
     if (json['weather'] != null) {
-      weather =[];
+      weather = [];
       json['weather'].forEach((v) {
         weather?.add(Weather.fromJson(v));
       });
@@ -40,8 +40,7 @@ class WeatherResponse {
     main = json['main'] != null ? Main.fromJson(json['main']) : null;
     visibility = json['visibility'];
     wind = json['wind'] != null ? Wind.fromJson(json['wind']) : null;
-    clouds =
-        json['clouds'] != null ? Clouds.fromJson(json['clouds']) : null;
+    clouds = json['clouds'] != null ? Clouds.fromJson(json['clouds']) : null;
     dt = json['dt'];
     sys = json['sys'] != null ? Sys.fromJson(json['sys']) : null;
     timezone = json['timezone'];
@@ -175,7 +174,7 @@ class Main {
 }
 
 class Wind {
-  double? speed;
+  num? speed;
   int? deg;
   double? gust;
 
