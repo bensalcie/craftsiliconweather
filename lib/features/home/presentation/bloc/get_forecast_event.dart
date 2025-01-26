@@ -8,8 +8,9 @@ class GetForecastEvent extends Equatable {
 }
 
 class GetForecast extends GetForecastEvent {
-  const GetForecast();
+  final ForecastBody forecastBody;
+  const GetForecast({required this.forecastBody});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [forecastBody];
 }

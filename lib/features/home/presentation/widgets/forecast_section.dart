@@ -1,22 +1,12 @@
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_shimmer_grid_vertical_loader.dart';
 import 'package:craftsiliconweather/core/common/utils/app_utils.dart';
+import 'package:craftsiliconweather/features/home/data/models/forecast_response.dart';
 import 'package:craftsiliconweather/features/home/presentation/bloc/get_forecast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ForecastSection extends StatefulWidget {
+class ForecastSection extends StatelessWidget {
   const ForecastSection({super.key});
-
-  @override
-  State<ForecastSection> createState() => _ForecastSectionState();
-}
-
-class _ForecastSectionState extends State<ForecastSection> {
-  @override
-  void initState() {
-    _fetchForecast();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +45,26 @@ class _ForecastSectionState extends State<ForecastSection> {
               }
               if (state is GetForecastSuccess) {
                 final forecastItems = state.forecastRepsonse.list;
+
+                // Use a map to retain only the last occurrence of each day
+                final Map<String, ListElement> uniqueDays = {};
+                for (final item in forecastItems) {
+                  uniqueDays[getDayOfWeek(item.dt)] =
+                      item; // Replace old item with the latest one
+                }
+
+                // Convert the map values back to a strongly-typed list
+                final List<ListElement> filteredForecastItems =
+                    uniqueDays.values.toList();
+
                 return ListView.separated(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: forecastItems.length,
+                  itemCount: filteredForecastItems.length,
                   separatorBuilder: (context, index) =>
                       Divider(color: Colors.grey[800]),
                   itemBuilder: (context, index) {
-                    final item = forecastItems[
+                    final item = filteredForecastItems[
                         index]; // Assuming item is of type ListElement
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,12 +72,7 @@ class _ForecastSectionState extends State<ForecastSection> {
                         Row(
                           children: [
                             Text(
-                              // Format the date (dt) from UNIX timestamp to a readable date
-                              DateTime.fromMillisecondsSinceEpoch(
-                                      item.dt * 1000)
-                                  .toLocal()
-                                  .toString()
-                                  .split(' ')[0], // Example: 'YYYY-MM-DD'
+                              getDayOfWeek(item.dt),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -84,17 +81,17 @@ class _ForecastSectionState extends State<ForecastSection> {
                             const SizedBox(width: 16),
                             Image.network(
                               // Load the weather icon using the "icon" field from Weather
-                              "https://openweathermap.org/img/wn/${item.weather.first.icon}.png",
-                              color: Colors.orangeAccent,
-                              width: 24,
-                              height: 24,
+                              "https://openweathermap.org/img/wn/${item.weather.first.icon}@2x.png",
+                              width: 30,
+                              color: Colors.orange.shade400,
+                              height: 30,
                             ),
                           ],
                         ),
                         Row(
                           children: [
                             Text(
-                              "${item.main.tempMax.toStringAsFixed(1)}°",
+                              "${item.main.tempMax.toStringAsFixed(1)}°C",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -132,9 +129,5 @@ class _ForecastSectionState extends State<ForecastSection> {
         ],
       ),
     );
-  }
-
-  void _fetchForecast() {
-    context.read<GetForecastBloc>().add(GetForecast());
   }
 }

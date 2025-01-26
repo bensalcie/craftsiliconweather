@@ -21,8 +21,8 @@ class GetForecastRemoteDataSourceImpl implements GetForecastRemoteDataSource {
   @override
   Future<ForecastResponse> getForecast({required ForecastBody payload}) async {
     try {
-      final response =
-          await _client.get('/forecast', queryParameters: payload.toJson());
+      final response = await _client.get('/forecast',
+          queryParameters: payload.toJson());
       if (kDebugMode) {
         print('GetForecastRemoteDataSource response: $response');
       }

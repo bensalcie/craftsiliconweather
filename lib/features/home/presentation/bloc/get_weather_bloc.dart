@@ -30,6 +30,7 @@ class GetWeatherBloc extends Bloc<GetWeatherEvent, GetWeatherState> {
     if (!isSeachPage) {
       final existingCoodinates =
           await storageUtils.getDataForSingle(key: locationskey);
+          
       if (existingCoodinates.isNotEmpty) {
         final coordinates = existingCoodinates.split(',');
         weatherBody = WeatherBody(

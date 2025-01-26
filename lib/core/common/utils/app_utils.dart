@@ -204,3 +204,24 @@ extension StringExtension on String {
     return this[0].toUpperCase() + substring(1);
   }
 }
+
+String getDayOfWeek(int timestamp) {
+  // Convert the timestamp to a DateTime object
+  final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+
+  // Get the day of the week and the day of the month
+  final dayOfWeek = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  ][date.weekday % 7];
+  final dayOfMonth = date.day;
+
+  // Format the result
+  return '$dayOfWeek, $dayOfMonth';
+}
+

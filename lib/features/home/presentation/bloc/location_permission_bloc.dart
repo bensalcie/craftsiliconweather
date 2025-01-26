@@ -45,6 +45,7 @@ class LocationPermissionBloc
     if (position != null) {
       print(
           "Location Coordinates ==>  ${position.latitude},${position.longitude}");
+
       storageUtils.saveDataForSingle(
           dataToSave: '${position.latitude},${position.longitude}',
           key: locationskey);

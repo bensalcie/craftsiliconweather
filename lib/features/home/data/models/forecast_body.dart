@@ -6,24 +6,27 @@ ForecastBody forecastBodyFromJson(String str) =>
 String forecastBodyToJson(ForecastBody data) => json.encode(data.toJson());
 
 class ForecastBody {
-  double lat;
-  double lon;
-  int cnt;
-  String? metric = 'metric';
+  double? lat;
+  double? lon;
+  int? cnt;
+  String? units;
+  String? q;
 
   ForecastBody({
-    required this.lat,
-    required this.lon,
-    required this.cnt,
-    this.metric,
+    this.units,
+    this.lat,
+    this.lon,
+    this.cnt,
+    this.q,
   });
 
   factory ForecastBody.fromJson(Map<String, dynamic> json) => ForecastBody(
       lat: json["lat"]?.toDouble(),
       lon: json["lon"]?.toDouble(),
       cnt: json["cnt"],
-      metric: json['units']);
+      units: json['units'],
+      q: json['q']);
 
   Map<String, dynamic> toJson() =>
-      {"lat": lat, "lon": lon, "cnt": cnt, "units": metric};
+      {"lat": lat, "lon": lon, "cnt": cnt, "units": units, "q": q};
 }
