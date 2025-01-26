@@ -23,7 +23,7 @@ class WeatherDetailCard extends StatelessWidget {
         child: Ink(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withOpacity(0.0),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(

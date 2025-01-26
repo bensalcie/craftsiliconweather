@@ -1,4 +1,5 @@
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_shimmer_grid_vertical_loader.dart';
+import 'package:craftsiliconweather/core/common/utils/app_utils.dart';
 import 'package:craftsiliconweather/features/home/data/models/forecast_body.dart';
 import 'package:craftsiliconweather/features/home/presentation/bloc/get_forecast_bloc.dart';
 import 'package:flutter/material.dart';
@@ -112,7 +113,8 @@ class _ForecastSectionState extends State<ForecastSection> {
                             const SizedBox(width: 16),
                             Text(
                               // Use description from the first Weather object
-                              item.weather.first.description,
+                              item.weather.first.description
+                                  .capitalizeFirstLetter(),
                               style: TextStyle(
                                 color: Colors.white70,
                                 fontSize: 14,

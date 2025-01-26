@@ -10,7 +10,7 @@ class WeatherHeader extends StatelessWidget {
     required this.weather,
   });
 
-  final WeatherResponse weather;
+  final WeatherResponse? weather;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class WeatherHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                weather.name ?? '',
+                weather?.name ?? 'Search city...',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -33,7 +33,7 @@ class WeatherHeader extends StatelessWidget {
               ),
               AppTextViewSubtitle(
                   padding: 1,
-                  text: weather.sys?.country ?? '',
+                  text: weather?.sys?.country ?? '',
                   textAlign: TextAlign.start,
                   textColor: Colors.white)
             ],

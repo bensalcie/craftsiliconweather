@@ -1,7 +1,18 @@
 import 'package:craftsiliconweather/core/common/constants/app_strings.dart';
 import 'package:craftsiliconweather/core/common/constants/dimens.dart';
+import 'package:craftsiliconweather/core/common/presentation/widgets/app_search_view.dart';
+import 'package:craftsiliconweather/core/common/presentation/widgets/app_shimmer_vertical_loader.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_medium.dart';
+import 'package:craftsiliconweather/core/common/utils/app_utils.dart';
+import 'package:craftsiliconweather/features/home/data/models/weather_body.dart';
+import 'package:craftsiliconweather/features/home/presentation/bloc/search_weather_bloc.dart';
+import 'package:craftsiliconweather/features/home/presentation/widgets/current_weather_status.dart';
+import 'package:craftsiliconweather/features/home/presentation/widgets/weather_details_card.dart';
+import 'package:craftsiliconweather/features/home/presentation/widgets/weather_extras_card.dart';
+import 'package:craftsiliconweather/features/home/presentation/widgets/weather_header.dart';
+import 'package:craftsiliconweather/themes/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -9,196 +20,171 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 100,
-          automaticallyImplyLeading: true,
-          title: SizedBox(
-            height: 120,
+      body: SingleChildScrollView(
+        child: Expanded(
+          flex: 1,
+          child: Ink(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF645AFF),
+                  Color(0xFF8A77FF),
+                ],
+              ),
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(
-                  height: app_padding,
+                AppBar(
+                  backgroundColor: Colors.transparent,
+                  toolbarHeight: 100,
+                  automaticallyImplyLeading: true,
+                  title: SizedBox(
+                    height: 120,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(
+                          height: app_padding,
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/logo.png',
+                              height: 34,
+                              width: 34,
+                            ),
+                            const SizedBox(
+                              width: app_padding,
+                            ),
+                            AppTextViewMedium(
+                              text: app_title,
+                              padding: 4,
+                              fontSize: 20,
+                              textColor: kLightColor,
+                              weight: FontWeight.w800,
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  iconTheme: const IconThemeData(size: 24),
+                  titleSpacing: 20,
                 ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/images/logo.png',
-                      height: 34,
-                      width: 34,
-                    ),
-                    const SizedBox(
-                      width: app_padding,
-                    ),
-                    const AppTextViewMedium(
-                      text: app_title,
-                      padding: 4,
-                      fontSize: 20,
-                      weight: FontWeight.w800,
-                      textAlign: TextAlign.start,
-                    ),
-                  ],
+                AppSearchView(
+                    cancelLabel: 'Cancel',
+                    searchHint: 'Seach City',
+                    onSearchTermChanged: (term) {
+                      context.read<SearchWeatherBloc>().add(SearchWeather(
+                          isSearchPage: true,
+                          weatherBody: WeatherBody(placename: term)));
+                    }),
+                BlocBuilder<SearchWeatherBloc, SearchWeatherState>(
+                  builder: (context, state) {
+                    if (state is SearchWeatherLoading) {
+                      return const AppShimmerVerticalLoader(
+                        height: 100,
+                        width: double.infinity,
+                        itemCount: 5,
+                        isCircular: false,
+                        isRounded: true,
+                        borderRadius: 10.0,
+                      );
+                    }
+
+                    if (state is SearchWeatherSuccess) {
+                      final weather = state.weatherResponse;
+
+                      return ListView(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        children: [
+                          WeatherHeader(weather: weather),
+                          const SizedBox(height: app_small_padding),
+                          const SizedBox(height: app_small_padding),
+                          CurrentWeatherStatus(weather: weather),
+                          const SizedBox(height: app_small_padding),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              WeatherDetailCard(
+                                icon: Icons.water_drop_outlined,
+                                label: "Humidity",
+                                value: "${weather.main?.humidity ?? 0}%",
+                              ),
+                              WeatherDetailCard(
+                                icon: Icons.air,
+                                label: "Wind Speed",
+                                value: "${weather.wind?.speed ?? 0} m/s",
+                              ),
+                              WeatherDetailCard(
+                                icon: Icons.wb_sunny_outlined,
+                                label: "Sunrise",
+                                value: formatTime(weather.sys?.sunrise),
+                              ),
+                              WeatherDetailCard(
+                                icon: Icons.nights_stay_outlined,
+                                label: "Sunset",
+                                value: formatTime(weather.sys?.sunset),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: app_padding),
+                          WeatherExtrasDetailCard(weather: weather),
+                        ],
+                      );
+                    }
+                    return ListView(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      children: [
+                        WeatherHeader(weather: null),
+                        const SizedBox(height: app_small_padding),
+                        const SizedBox(height: app_small_padding),
+                        CurrentWeatherStatus(weather: null),
+                        const SizedBox(height: app_small_padding),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            WeatherDetailCard(
+                              icon: Icons.water_drop_outlined,
+                              label: "Humidity",
+                              value: "${0}%",
+                            ),
+                            WeatherDetailCard(
+                              icon: Icons.air,
+                              label: "Wind Speed",
+                              value: "${0} m/s",
+                            ),
+                            WeatherDetailCard(
+                              icon: Icons.wb_sunny_outlined,
+                              label: "Sunrise",
+                              value: formatTime(0),
+                            ),
+                            WeatherDetailCard(
+                              icon: Icons.nights_stay_outlined,
+                              label: "Sunset",
+                              value: formatTime(0),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: app_padding),
+                        WeatherExtrasDetailCard(weather: null),
+                      ],
+                    );
+                  },
                 ),
               ],
             ),
           ),
-          iconTheme: const IconThemeData(size: 24),
-          titleSpacing: 20,
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Top Section
-            Expanded(
-              flex: 2,
-              child: Stack(
-                children: [
-                  // Background Gradient
-                  Ink(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0xFF645AFF),
-                          Color(0xFF8A77FF),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // Main Weather Info
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 20),
-                      Text(
-                        "Pasuruan",
-                        // style: GoogleFonts.poppins(
-                        //   color: Colors.white,
-                        //   fontSize: 24,
-                        //   fontWeight: FontWeight.bold,
-                        // ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        "17:45 PM",
-                        // style: GoogleFonts.poppins(
-                        //   color: Colors.white70,
-                        //   fontSize: 16,
-                        // ),
-                      ),
-                      const SizedBox(height: 20),
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              'assets/images/logo.png',
-                              height: 60,
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              "23°",
-                              // style: GoogleFonts.poppins(
-                              //   color: Colors.white,
-                              //   fontSize: 50,
-                              //   fontWeight: FontWeight.bold,
-                              // ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              "Moon Cloud Fast Wind",
-                              // style: GoogleFonts.poppins(
-                              //   color: Colors.white70,
-                              //   fontSize: 16,
-                              // ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            // Bottom Section
-            Expanded(
-              flex: 3,
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Today's Weather
-                    Text(
-                      "Today",
-                      // style: GoogleFonts.poppins(
-                      //   fontSize: 18,
-                      //   fontWeight: FontWeight.bold,
-                      // ),
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        WeatherTimeCard(
-                            time: "06:00 AM", temp: "24°", icon: Icons.cloud),
-                        WeatherTimeCard(
-                            time: "08:00 AM",
-                            temp: "26°",
-                            icon: Icons.wb_sunny),
-                        WeatherTimeCard(
-                            time: "10:00 AM",
-                            temp: "23°",
-                            icon: Icons.umbrella),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    // Future Weather
-                    Text(
-                      "Next 7 Days",
-                      // style: GoogleFonts.poppins(
-                      //   fontSize: 18,
-                      //   fontWeight: FontWeight.bold,
-                      // ),
-                    ),
-                    const SizedBox(height: 20),
-                    Expanded(
-                      child: ListView(
-                        children: [
-                          WeatherFutureCard(
-                              day: "Monday", temp: "29°", icon: Icons.wb_sunny),
-                          WeatherFutureCard(
-                              day: "Tuesday", temp: "22°", icon: Icons.cloud),
-                          WeatherFutureCard(
-                              day: "Wednesday",
-                              temp: "19°",
-                              icon: Icons.umbrella),
-                          WeatherFutureCard(
-                              day: "Thursday",
-                              temp: "28°",
-                              icon: Icons.wb_sunny),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ));
+      ),
+    );
   }
 }
 

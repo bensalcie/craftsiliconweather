@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:craftsiliconweather/core/common/constants/app_strings.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_small.dart';
 import 'package:craftsiliconweather/themes/theme.dart';
@@ -30,6 +32,8 @@ class AppSearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Timer? debounce;
+
     return Row(
       children: [
         Expanded(
@@ -46,9 +50,14 @@ class AppSearchView extends StatelessWidget {
 
               controller: searchController,
               onChanged: (changedText) {
-                if (changedText.length > 2) {
-                  onSearchTermChanged(changedText);
+                if (debounce?.isActive ?? false) {
+                  debounce?.cancel(); // Cancel any previous timer
                 }
+                debounce = Timer(const Duration(milliseconds: 500), () {
+                  if (changedText.length > 2) {
+                    onSearchTermChanged(changedText);
+                  }
+                });
               },
               autofocus: autoFocus ?? false,
 

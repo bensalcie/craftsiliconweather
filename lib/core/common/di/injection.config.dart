@@ -37,6 +37,8 @@ import '../../../features/home/presentation/bloc/get_weather_bloc.dart'
     as _i695;
 import '../../../features/home/presentation/bloc/location_permission_bloc.dart'
     as _i761;
+import '../../../features/home/presentation/bloc/search_weather_bloc.dart'
+    as _i205;
 import '../data/datasources/local/storage_utils.dart' as _i910;
 import '../network/dio_config.dart' as _i150;
 import 'module_injection.dart' as _i237;
@@ -60,12 +62,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i281.MethodChannel>(() => registerModules.channel);
     gh.lazySingleton<_i910.StorageUtils>(
         () => _i910.StorageUtils(gh<_i460.SharedPreferences>()));
+    gh.factory<_i695.GetWeatherBloc>(() => _i695.GetWeatherBloc(
+          gh<_i889.GetWeatherUseCase>(),
+          gh<_i910.StorageUtils>(),
+        ));
+    gh.factory<_i205.SearchWeatherBloc>(() => _i205.SearchWeatherBloc(
+          gh<_i889.GetWeatherUseCase>(),
+          gh<_i910.StorageUtils>(),
+        ));
     gh.factory<_i761.LocationPermissionBloc>(
         () => _i761.LocationPermissionBloc(gh<_i910.StorageUtils>()));
     gh.factory<String>(
       () => registerModules.baseUrl,
       instanceName: 'BaseUrl',
     );
+    gh.lazySingleton<_i889.GetWeatherUseCase>(
+        () => _i889.GetWeatherUseCase(gh<_i356.GetWeatherRepository>()));
     gh.lazySingleton<_i361.Dio>(
         () => registerModules.dio(gh<String>(instanceName: 'BaseUrl')));
     gh.lazySingleton<_i150.DioClient>(() => _i150.DioClient(gh<_i361.Dio>()));
@@ -80,12 +92,6 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i1073.GetForecastRemoteDataSource>()));
     gh.lazySingleton<_i1036.GetForecastUseCase>(
         () => _i1036.GetForecastUseCase(gh<_i986.GetForecastRepository>()));
-    gh.lazySingleton<_i889.GetWeatherUseCase>(
-        () => _i889.GetWeatherUseCase(gh<_i356.GetWeatherRepository>()));
-    gh.factory<_i695.GetWeatherBloc>(() => _i695.GetWeatherBloc(
-          gh<_i889.GetWeatherUseCase>(),
-          gh<_i910.StorageUtils>(),
-        ));
     gh.factory<_i931.GetForecastBloc>(
         () => _i931.GetForecastBloc(gh<_i1036.GetForecastUseCase>()));
     return this;

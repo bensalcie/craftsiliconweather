@@ -11,7 +11,7 @@ class CurrentWeatherStatus extends StatelessWidget {
     required this.weather,
   });
 
-  final WeatherResponse weather;
+  final WeatherResponse? weather;
 
   @override
   Widget build(BuildContext context) {
@@ -27,21 +27,22 @@ class CurrentWeatherStatus extends StatelessWidget {
           children: [
             Image.asset(
               'assets/images/logo.png',
-              height: 120,
+              height: 130,
             ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   AppTextViewMedium(
-                    fontSize: 45,
+                    fontSize: 46,
                     maxLines: 2,
-                    text: "${weather.main?.temp ?? 'N/A'}°C",
+                    text:
+                        "${weather?.main?.temp?.toStringAsFixed(1) ?? 'N/A'}°C",
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 5),
                   AppTextViewSubtitleSmallNoTap(
-                    text: (weather.weather?[0]?.description ?? '')
+                    text: (weather?.weather?[0]?.description ?? '')
                         .capitalizeFirstLetter(),
                     textAlign: TextAlign.start,
                   ),
