@@ -10,9 +10,11 @@ class CurrentWeatherStatus extends StatelessWidget {
   const CurrentWeatherStatus({
     super.key,
     required this.weather,
+    required this.lastupdated,
   });
 
   final WeatherResponse? weather;
+  final String lastupdated;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +55,19 @@ class CurrentWeatherStatus extends StatelessWidget {
                     text: (weather?.weather?[0]?.description ?? '')
                         .capitalizeFirstLetter(),
                     textAlign: TextAlign.start,
+                  ),
+                  const SizedBox(height: 5),
+                  Ink(
+                    padding: const EdgeInsets.all(7),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: AppTextViewSubtitleSmallNoTap(
+                      text: lastupdated,
+                      padding: 0,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               ),

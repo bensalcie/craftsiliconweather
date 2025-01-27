@@ -13,11 +13,13 @@ class GetWeatherLoading extends GetWeatherState {}
 
 class GetWeatherSuccess extends GetWeatherState {
   final WeatherResponse? weatherResponse;
+  final String lastUpdated;
 
-  const GetWeatherSuccess({required this.weatherResponse});
+  const GetWeatherSuccess(
+      {required this.weatherResponse, required this.lastUpdated});
 
   @override
-  List<Object?> get props => [weatherResponse];
+  List<Object?> get props => [weatherResponse, lastUpdated];
 }
 
 class GetWeatherFailed extends GetWeatherState {

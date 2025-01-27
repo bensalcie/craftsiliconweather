@@ -66,6 +66,8 @@ class _HomePageState extends State<HomePage> {
                       if (state is GetWeatherSuccess) {
                         final weather = state.weatherResponse;
 
+                        final lastupdated = state.lastUpdated;
+
                         return ListView(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -114,7 +116,10 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(height: app_small_padding),
                             LocationPermissionView(),
                             const SizedBox(height: app_small_padding),
-                            CurrentWeatherStatus(weather: weather),
+                            CurrentWeatherStatus(
+                              weather: weather,
+                              lastupdated: 'Last updated $lastupdated',
+                            ),
                             const SizedBox(height: app_small_padding),
                             WeatherSummarySmall(weather: weather),
                             const SizedBox(height: app_padding),

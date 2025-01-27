@@ -233,3 +233,29 @@ Future<bool?> checkIfInternetIsAvailable() async {
 
   return internetChecker.isInternetAvailable();
 }
+
+
+
+
+
+String timeAgo(int millisecondsSinceEpoch) {
+  final Duration difference = DateTime.now()
+      .difference(DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch));
+
+  if (difference.inSeconds < 60) return "Now";
+  if (difference.inMinutes < 60) {
+    return "${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago";
+  }
+  if (difference.inHours < 24) {
+    return "${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago";
+  }
+  if (difference.inDays < 30) {
+    return "${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago";
+  }
+
+  final int months = (difference.inDays / 30).floor();
+  if (months < 12) return "$months month${months > 1 ? 's' : ''} ago";
+
+  final int years = (difference.inDays / 365).floor();
+  return "$years year${years > 1 ? 's' : ''} ago";
+}

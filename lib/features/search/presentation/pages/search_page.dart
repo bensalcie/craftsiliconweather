@@ -24,145 +24,106 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Expanded(
-          flex: 1,
-          child: Ink(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF645AFF),
-                  Color(0xFF8A77FF),
-                ],
-              ),
+        child: Ink(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFF645AFF),
+                Color(0xFF8A77FF),
+              ],
             ),
-            child: Column(
-              children: [
-                AppBar(
-                  backgroundColor: Colors.transparent,
-                  toolbarHeight: 100,
-                  automaticallyImplyLeading: true,
-                  title: SizedBox(
-                    height: 120,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(
-                          height: app_padding,
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/logo.png',
-                              height: 34,
-                              width: 34,
-                            ),
-                            const SizedBox(
-                              width: app_padding,
-                            ),
-                            AppTextViewMedium(
-                              text: app_title,
-                              padding: 4,
-                              fontSize: 20,
-                              textColor: kLightColor,
-                              weight: FontWeight.w800,
-                              textAlign: TextAlign.start,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  iconTheme: const IconThemeData(size: 24),
-                  titleSpacing: 20,
-                ),
-                AppSearchView(
-                    cancelLabel: 'Cancel',
-                    searchHint: 'Seach City',
-                    onSearchTermChanged: (term) {
-                      context.read<SearchWeatherBloc>().add(SearchWeather(
-                          isSearchPage: true,
-                          weatherBody: WeatherBody(placename: term)));
-                      searchterm = term;
-                    }),
-                BlocBuilder<SearchWeatherBloc, SearchWeatherState>(
-                  builder: (context, state) {
-                    if (state is SearchWeatherLoading) {
-                      return const AppShimmerVerticalLoader(
-                        height: 100,
-                        width: double.infinity,
-                        itemCount: 5,
-                        isCircular: false,
-                        isRounded: true,
-                        borderRadius: 10.0,
-                      );
-                    }
-
-                    if (state is SearchWeatherFailed) {
-                      return NoDataView(
-                        errorMessage: 'Something went wrong :)',
-                        onActionClicked: () => context
-                            .read<SearchWeatherBloc>()
-                            .add(SearchWeather(
-                                isSearchPage: true,
-                                weatherBody:
-                                    WeatherBody(placename: searchterm))),
-                      );
-                    }
-
-                    if (state is SearchWeatherSuccess) {
-                      final weather = state.weatherResponse;
-
-                      return ListView(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
+          ),
+          child: Column(
+            children: [
+              AppBar(
+                backgroundColor: Colors.transparent,
+                toolbarHeight: 100,
+                automaticallyImplyLeading: true,
+                title: SizedBox(
+                  height: 120,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        height: app_padding,
+                      ),
+                      Row(
                         children: [
-                          WeatherHeader(weather: weather),
-                          const SizedBox(height: app_small_padding),
-                          const SizedBox(height: app_small_padding),
-                          CurrentWeatherStatus(weather: weather),
-                          const SizedBox(height: app_small_padding),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              WeatherDetailCard(
-                                icon: Icons.water_drop_outlined,
-                                label: "Humidity",
-                                value: "${weather.main?.humidity ?? 0}%",
-                              ),
-                              WeatherDetailCard(
-                                icon: Icons.air,
-                                label: "Wind Speed",
-                                value: "${weather.wind?.speed ?? 0} m/s",
-                              ),
-                              WeatherDetailCard(
-                                icon: Icons.wb_sunny_outlined,
-                                label: "Sunrise",
-                                value: formatTime(weather.sys?.sunrise),
-                              ),
-                              WeatherDetailCard(
-                                icon: Icons.nights_stay_outlined,
-                                label: "Sunset",
-                                value: formatTime(weather.sys?.sunset),
-                              ),
-                            ],
+                          Image.asset(
+                            'assets/images/logo.png',
+                            height: 34,
+                            width: 34,
                           ),
-                          const SizedBox(height: app_padding),
-                          WeatherExtrasDetailCard(weather: weather),
+                          const SizedBox(
+                            width: app_padding,
+                          ),
+                          AppTextViewMedium(
+                            text: app_title,
+                            padding: 4,
+                            fontSize: 20,
+                            textColor: kLightColor,
+                            weight: FontWeight.w800,
+                            textAlign: TextAlign.start,
+                          ),
                         ],
-                      );
-                    }
+                      ),
+                    ],
+                  ),
+                ),
+                iconTheme: const IconThemeData(size: 24),
+                titleSpacing: 20,
+              ),
+              AppSearchView(
+                  cancelLabel: 'Cancel',
+                  searchHint: 'Seach City',
+                  onSearchTermChanged: (term) {
+                    context.read<SearchWeatherBloc>().add(SearchWeather(
+                        isSearchPage: true,
+                        weatherBody: WeatherBody(placename: term)));
+                    searchterm = term;
+                  }),
+              BlocBuilder<SearchWeatherBloc, SearchWeatherState>(
+                builder: (context, state) {
+                  if (state is SearchWeatherLoading) {
+                    return const AppShimmerVerticalLoader(
+                      height: 100,
+                      width: double.infinity,
+                      itemCount: 5,
+                      isCircular: false,
+                      isRounded: true,
+                      borderRadius: 10.0,
+                    );
+                  }
+
+                  if (state is SearchWeatherFailed) {
+                    return NoDataView(
+                      errorMessage: 'Something went wrong :)',
+                      onActionClicked: () => context
+                          .read<SearchWeatherBloc>()
+                          .add(SearchWeather(
+                              isSearchPage: true,
+                              weatherBody: WeatherBody(placename: searchterm))),
+                    );
+                  }
+
+                  if (state is SearchWeatherSuccess) {
+                    final weather = state.weatherResponse;
+
                     return ListView(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       children: [
-                        WeatherHeader(weather: null),
+                        WeatherHeader(weather: weather),
                         const SizedBox(height: app_small_padding),
                         const SizedBox(height: app_small_padding),
-                        CurrentWeatherStatus(weather: null),
+                        CurrentWeatherStatus(
+                          weather: weather,
+                          lastupdated: 'Updated Now',
+                        ),
                         const SizedBox(height: app_small_padding),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -170,33 +131,74 @@ class SearchPage extends StatelessWidget {
                             WeatherDetailCard(
                               icon: Icons.water_drop_outlined,
                               label: "Humidity",
-                              value: "${0}%",
+                              value: "${weather.main?.humidity ?? 0}%",
                             ),
                             WeatherDetailCard(
                               icon: Icons.air,
                               label: "Wind Speed",
-                              value: "${0} m/s",
+                              value: "${weather.wind?.speed ?? 0} m/s",
                             ),
                             WeatherDetailCard(
                               icon: Icons.wb_sunny_outlined,
                               label: "Sunrise",
-                              value: formatTime(0),
+                              value: formatTime(weather.sys?.sunrise),
                             ),
                             WeatherDetailCard(
                               icon: Icons.nights_stay_outlined,
                               label: "Sunset",
-                              value: formatTime(0),
+                              value: formatTime(weather.sys?.sunset),
                             ),
                           ],
                         ),
                         const SizedBox(height: app_padding),
-                        WeatherExtrasDetailCard(weather: null),
+                        WeatherExtrasDetailCard(weather: weather),
                       ],
                     );
-                  },
-                ),
-              ],
-            ),
+                  }
+                  return ListView(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: [
+                      WeatherHeader(weather: null),
+                      const SizedBox(height: app_small_padding),
+                      const SizedBox(height: app_small_padding),
+                      CurrentWeatherStatus(
+                        weather: null,
+                        lastupdated: 'Waiting for action',
+                      ),
+                      const SizedBox(height: app_small_padding),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          WeatherDetailCard(
+                            icon: Icons.water_drop_outlined,
+                            label: "Humidity",
+                            value: "${0}%",
+                          ),
+                          WeatherDetailCard(
+                            icon: Icons.air,
+                            label: "Wind Speed",
+                            value: "${0} m/s",
+                          ),
+                          WeatherDetailCard(
+                            icon: Icons.wb_sunny_outlined,
+                            label: "Sunrise",
+                            value: formatTime(0),
+                          ),
+                          WeatherDetailCard(
+                            icon: Icons.nights_stay_outlined,
+                            label: "Sunset",
+                            value: formatTime(0),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: app_padding),
+                      WeatherExtrasDetailCard(weather: null),
+                    ],
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),

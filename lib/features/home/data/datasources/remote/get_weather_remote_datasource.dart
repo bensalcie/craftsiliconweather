@@ -43,6 +43,17 @@ class GetWeatherRemoteDataSourceImpl implements GetWeatherRemoteDataSource {
         debugPrint("Unable to Save Local DATA: Reason: $e");
       }
 
+      DateTime now = DateTime.now();
+
+      // Print the full timestamp
+      print('Current Timestamp: $now');
+
+      // Get the timestamp in milliseconds since the epoch
+      int millisecondsSinceEpoch = now.millisecondsSinceEpoch;
+      print('Milliseconds since Epoch: $millisecondsSinceEpoch');
+      await storageUtils.saveDataForSingle(
+          key: lastupdatedkey, dataToSave: millisecondsSinceEpoch.toString());
+
       return weatherResponse;
     } catch (e) {
       if (kDebugMode) {

@@ -28,6 +28,18 @@ class GetWeatherLocalDataSourceImpl implements GetWeatherLocalDataSource {
       );
 
       if (weatherResponse != null) {
+        // Update last updated.
+
+        DateTime now = DateTime.now();
+
+        // Print the full timestamp
+        print('Current Timestamp: $now');
+
+        // Get the timestamp in milliseconds since the epoch
+        int millisecondsSinceEpoch = now.millisecondsSinceEpoch;
+        print('Milliseconds since Epoch: $millisecondsSinceEpoch');
+        await storageUtils.saveDataForSingle(
+            key: lastupdatedkey, dataToSave: millisecondsSinceEpoch.toString());
         return weatherResponse;
       } else {
         throw NoDataException();

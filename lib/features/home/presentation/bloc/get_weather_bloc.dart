@@ -52,6 +52,12 @@ class GetWeatherBloc extends Bloc<GetWeatherEvent, GetWeatherState> {
     final result = isInternetAvailable == true
         ? await _getWeatherUseCase.call(weatherBody)
         : await _getWeatherLocalUseCase.call(NoParams());
+
+    final lastupdatedString =
+        await storageUtils.getDataForSingle(key: lastupdatedkey);
+    int lastUpdatedtime = int.tryParse(lastupdatedString) ?? 0;
+    String lastupdated = timeAgo(lastUpdatedtime);
+
     emit(
       result.fold(
         (failure) => failure.runtimeType == DatabaseFailure
@@ -59,7 +65,8 @@ class GetWeatherBloc extends Bloc<GetWeatherEvent, GetWeatherState> {
                 errorMessage:
                     'No Data found Please connect to your Internet and Retry')
             : const GetWeatherFailed(errorMessage: 'Something went wrong'),
-        (data) => GetWeatherSuccess(weatherResponse: data),
+        (data) =>
+            GetWeatherSuccess(weatherResponse: data, lastUpdated: lastupdated),
       ),
     );
   }
