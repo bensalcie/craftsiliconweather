@@ -118,7 +118,9 @@ Ensure the following are installed on your system:
 ---
 
 ## Screenshots 📸  
-N/A
+|                                      Location                                        |                                      Search                                       |                                       Location Details                                       |                                       About                                       |
+|:-----------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------:|
+| <img src="resources/Screenshot_20250127_122239_Permission controller.jpg" width="200" hspace="2" alt="auth" /> | <img src="resources/Screenshot_20250127_123713.jpg" width="200" hspace="2" alt="feed" /> | <img src="resources/Screenshot_20250127_122300.jpg" width="200" hspace="2" alt="feed" />  | <img src="resources/Screenshot_20250127_122313.jpg" width="200" hspace="2" alt="feed" />  |
 ---
 
 ## Future Improvements 🛠️  
