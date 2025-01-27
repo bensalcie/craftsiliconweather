@@ -28,7 +28,7 @@ This app is built following **Clean Architecture** principles, ensuring separati
 
 ## Quick Testing 
 Download Sample apk [Here](https://github.com/bensalcie/craftsiliconweather/blob/main/resources/craftsilicontestapp.apk)
-
+Video Walkthrough [Here](https://github.com/bensalcie/craftsiliconweather/blob/main/resources/Screen_Recording_20250127_122159.mov)
 
 ### Prerequisites  
 Ensure the following are installed on your system:  
