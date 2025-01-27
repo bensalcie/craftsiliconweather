@@ -1,5 +1,5 @@
 # Craft Silicon Weather App 🌤️  
-A modern, mobile weather application that fetches and displays weather data from the OpenWeather API. Built with [Flutter](https://flutter.dev), this app provides current weather and a 5-day forecast for any city, with an elegant and user-friendly interface inspired by the latest UI/UX design standards.
+A weather application that fetches and displays weather data from the OpenWeather API. Built with [Flutter](https://flutter.dev), this app provides current weather and a 5-day forecast for any city, with an elegant and user-friendly interface inspired by the latest UI/UX design standards.
 
 ---
 
