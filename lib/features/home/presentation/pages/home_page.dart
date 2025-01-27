@@ -27,131 +27,136 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Ink(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF645AFF),
-                    Color(0xFF8A77FF),
-                  ],
-                ),
-              ),
-              child: BlocListener<GetWeatherBloc, GetWeatherState>(
-                listener: (context, state) {
-                  if (state is GetWeatherSuccess) {
-                    _fetchForecast(state.weatherResponse?.name ?? '');
-                  }
-                },
-                child: BlocBuilder<GetWeatherBloc, GetWeatherState>(
-                  builder: (context, state) {
-                    if (state is GetWeatherLoading) {
-                      return const AppShimmerVerticalLoader(
-                        height: 100,
-                        width: double.infinity,
-                        itemCount: 10,
-                        isCircular: false,
-                        isRounded: true,
-                        borderRadius: 10.0,
-                      );
-                    }
-
-                    if (state is GetWeatherSuccess) {
-                      final weather = state.weatherResponse;
-
-                      return ListView(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        children: [
-                          AppBar(
-                            backgroundColor: Colors.transparent,
-                            toolbarHeight: 100,
-                            automaticallyImplyLeading: true,
-                            title: SizedBox(
-                              height: 120,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const SizedBox(
-                                    height: app_padding,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/logo.png',
-                                        height: 34,
-                                        width: 34,
-                                      ),
-                                      const SizedBox(
-                                        width: app_padding,
-                                      ),
-                                      AppTextViewMedium(
-                                        text: app_title,
-                                        padding: 4,
-                                        fontSize: 20,
-                                        textColor: kLightColor,
-                                        weight: FontWeight.w800,
-                                        textAlign: TextAlign.start,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            iconTheme: const IconThemeData(size: 24),
-                            titleSpacing: 20,
-                          ),
-                          WeatherHeader(weather: weather),
-                          const SizedBox(height: app_small_padding),
-                          LocationPermissionView(),
-                          const SizedBox(height: app_small_padding),
-                          CurrentWeatherStatus(weather: weather),
-                          const SizedBox(height: app_small_padding),
-                          WeatherSummarySmall(weather: weather),
-                          const SizedBox(height: app_padding),
-                          const ForecastSection()
-                        ],
-                      );
-                    }
-                    return SizedBox.shrink();
-                  },
-                ),
-              ),
-            ),
-            BlocBuilder<GetWeatherBloc, GetWeatherState>(
-              builder: (context, state) {
-                if (state is GetWeatherFailed) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const SizedBox(
-                        height: 200,
-                      ),
-                      NoDataView(
-                        errorMessage: state.errorMessage,
-                        onActionClicked: () => context.read<GetWeatherBloc>()
-                          ..add(
-                            GetWeather(
-                                weatherBody: WeatherBody(placename: 'Nairobi'),
-                                isSearchPage: false),
-                          ),
-                      ),
+      body: RefreshIndicator(
+        onRefresh: _onRefresh,
+        color: kLightColor,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Ink(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xFF645AFF),
+                      Color(0xFF8A77FF),
                     ],
+                  ),
+                ),
+                child: BlocListener<GetWeatherBloc, GetWeatherState>(
+                  listener: (context, state) {
+                    if (state is GetWeatherSuccess) {
+                      _fetchForecast(state.weatherResponse?.name ?? '');
+                    }
+                  },
+                  child: BlocBuilder<GetWeatherBloc, GetWeatherState>(
+                    builder: (context, state) {
+                      if (state is GetWeatherLoading) {
+                        return const AppShimmerVerticalLoader(
+                          height: 100,
+                          width: double.infinity,
+                          itemCount: 10,
+                          isCircular: false,
+                          isRounded: true,
+                          borderRadius: 10.0,
+                        );
+                      }
+
+                      if (state is GetWeatherSuccess) {
+                        final weather = state.weatherResponse;
+
+                        return ListView(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          children: [
+                            AppBar(
+                              backgroundColor: Colors.transparent,
+                              toolbarHeight: 100,
+                              automaticallyImplyLeading: true,
+                              title: SizedBox(
+                                height: 120,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const SizedBox(
+                                      height: app_padding,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/logo.png',
+                                          height: 34,
+                                          width: 34,
+                                        ),
+                                        const SizedBox(
+                                          width: app_padding,
+                                        ),
+                                        AppTextViewMedium(
+                                          text: app_title,
+                                          padding: 4,
+                                          fontSize: 20,
+                                          textColor: kLightColor,
+                                          weight: FontWeight.w800,
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              iconTheme: const IconThemeData(size: 24),
+                              titleSpacing: 20,
+                            ),
+                            WeatherHeader(weather: weather),
+                            const SizedBox(height: app_small_padding),
+                            LocationPermissionView(),
+                            const SizedBox(height: app_small_padding),
+                            CurrentWeatherStatus(weather: weather),
+                            const SizedBox(height: app_small_padding),
+                            WeatherSummarySmall(weather: weather),
+                            const SizedBox(height: app_padding),
+                            const ForecastSection()
+                          ],
+                        );
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
+                ),
+              ),
+              BlocBuilder<GetWeatherBloc, GetWeatherState>(
+                builder: (context, state) {
+                  if (state is GetWeatherFailed) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        const SizedBox(
+                          height: 200,
+                        ),
+                        NoDataView(
+                          errorMessage: state.errorMessage,
+                          onActionClicked: () => context.read<GetWeatherBloc>()
+                            ..add(
+                              GetWeather(
+                                  weatherBody:
+                                      WeatherBody(placename: 'Nairobi'),
+                                  isSearchPage: false),
+                            ),
+                        ),
+                      ],
+                    );
+                  }
+                  return const SizedBox(
+                    height: 10,
                   );
-                }
-                return const SizedBox(
-                  height: 10,
-                );
-              },
-            ),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -160,5 +165,13 @@ class _HomePageState extends State<HomePage> {
   void _fetchForecast(String placeName) {
     context.read<GetForecastBloc>().add(
         GetForecast(forecastBody: ForecastBody(q: placeName, units: 'metric')));
+  }
+
+  Future<void> _onRefresh() async {
+    context.read<GetWeatherBloc>().add(
+          GetWeather(
+              weatherBody: WeatherBody(placename: 'Nairobi'),
+              isSearchPage: false),
+        );
   }
 }
