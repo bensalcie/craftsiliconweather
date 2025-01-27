@@ -3,6 +3,11 @@ A modern, mobile weather application that fetches and displays weather data from
 
 ---
 
+https://github.com/bensalcie/craftsiliconweather/blob/main/resources/Screen_Recording_20250127_122159.mov
+Video Walkthrough
+:-: | :-:
+<video src='resources/Screen_Recording_20250127_122159.mov' width=180 />
+
 ## Features ✨  
 - **Real-time Weather Data**: Displays current weather (temperature, wind speed, humidity) for the selected city.  
 - **5-Day Forecast**: Provides a detailed daily forecast for the upcoming five days.  
