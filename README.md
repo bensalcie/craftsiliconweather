@@ -3,7 +3,9 @@ A modern, mobile weather application that fetches and displays weather data from
 
 ---
 
-[![Watch the video](resources/Screenshot_20250127_122253.jpg)](resources/Screen_Recording_20250127_122159.mov)
+[![Watch the video](resources/Screenshot_20250127_123713.jpg)]([resources/Screen_Recording_20250127_122159.mov](https://github.com/bensalcie/craftsiliconweather/blob/main/resources/Screen_Recording_20250127_122159.mov))
+
+
 
 
 ## Features ✨  
