@@ -14,3 +14,5 @@ const search_label = 'Search';
 
 //Keys.
 const locationskey = 'locations-key';
+const weatherkey = 'weather-key';
+const forecastkey = 'forecast-key';

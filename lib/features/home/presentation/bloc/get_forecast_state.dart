@@ -25,3 +25,9 @@ class GetForecastFailed extends GetForecastState {
 
   const GetForecastFailed({required this.errorMessage});
 }
+
+class GetLocalFailed extends GetForecastState {
+  final String errorMessage;
+
+  const GetLocalFailed({required this.errorMessage});
+}

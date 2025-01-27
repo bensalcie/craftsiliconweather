@@ -1,8 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:craftsiliconweather/core/common/data/datasources/local/storage_utils.dart';
+import 'package:craftsiliconweather/core/common/error/failures.dart';
+import 'package:craftsiliconweather/core/common/usecases/usecase.dart';
+import 'package:craftsiliconweather/core/common/utils/app_utils.dart';
 import 'package:craftsiliconweather/features/home/data/models/forecast_body.dart';
 import 'package:craftsiliconweather/features/home/data/models/forecast_response.dart';
-import 'package:craftsiliconweather/features/home/domain/usecases/get_forecast_usecase.dart';
+import 'package:craftsiliconweather/features/home/domain/usecases/get_forecast_local_usecase.dart';
+import 'package:craftsiliconweather/features/home/domain/usecases/get_forecast_remote_usecase.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:injectable/injectable.dart';
@@ -12,10 +16,13 @@ part 'get_forecast_state.dart';
 
 @injectable
 class GetForecastBloc extends Bloc<GetForecastEvent, GetForecastState> {
-  final GetForecastUseCase _getWeatherUseCase;
+  final GetForecastRemoteUseCase _getWeatherUseCase;
+  final GetForecastLocalUseCase _forecastLocalUseCase;
+
   final StorageUtils storageUtils;
 
-  GetForecastBloc(this._getWeatherUseCase, this.storageUtils)
+  GetForecastBloc(
+      this._getWeatherUseCase, this.storageUtils, this._forecastLocalUseCase)
       : super(GetForecastInitial()) {
     on<GetForecast>(_onGetForecast);
   }
@@ -23,26 +30,18 @@ class GetForecastBloc extends Bloc<GetForecastEvent, GetForecastState> {
   _onGetForecast(GetForecast event, Emitter<GetForecastState> emit) async {
     emit(GetForecastLoading());
 
-    // final existingCoodinates =
-    //     await storageUtils.getDataForSingle(key: locationskey);
-    // if (existingCoodinates.isNotEmpty) {
-    //   final coordinates = existingCoodinates.split(',');
-    //   forecastBody = ForecastBody(
-    //       lat: double.tryParse(coordinates[0]) ?? -1.286389,
-    //       lon: double.tryParse(coordinates[1]) ?? 36.817223,
-    //       units: 'metric',
-    //       q: 'daily',
-    //       cnt: 5);
-    // } else {
-    //   forecastBody = ForecastBody(
-    //       lat: -1.286389, lon: 36.817223, cnt: 5, units: 'metric', q: 'daily');
-    // }
+    final isInternetAvailable = await checkIfInternetIsAvailable();
 
-    final result = await _getWeatherUseCase.call(event.forecastBody);
+    final result = isInternetAvailable == true
+        ? await _getWeatherUseCase.call(event.forecastBody)
+        : await _forecastLocalUseCase.call(NoParams());
     emit(
       result.fold(
-        (failure) =>
-            const GetForecastFailed(errorMessage: 'Something went wrong'),
+        (failure) => failure.runtimeType == DatabaseFailure
+            ? const GetLocalFailed(
+                errorMessage:
+                    'No Data found, please connect to your Internet and Retry')
+            : const GetForecastFailed(errorMessage: 'Something went wrong'),
         (data) => GetForecastSuccess(forecastRepsonse: data),
       ),
     );

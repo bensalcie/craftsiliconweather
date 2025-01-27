@@ -2,7 +2,9 @@ import 'package:craftsiliconweather/core/common/constants/app_strings.dart';
 import 'package:craftsiliconweather/core/common/constants/dimens.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_shimmer_vertical_loader.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_medium.dart';
+import 'package:craftsiliconweather/core/common/presentation/widgets/no_data_view.dart';
 import 'package:craftsiliconweather/features/home/data/models/forecast_body.dart';
+import 'package:craftsiliconweather/features/home/data/models/weather_body.dart';
 import 'package:craftsiliconweather/features/home/presentation/bloc/get_forecast_bloc.dart';
 import 'package:craftsiliconweather/features/home/presentation/bloc/get_weather_bloc.dart';
 import 'package:craftsiliconweather/features/home/presentation/widgets/current_weather_status.dart';
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> {
               child: BlocListener<GetWeatherBloc, GetWeatherState>(
                 listener: (context, state) {
                   if (state is GetWeatherSuccess) {
-                    _fetchForecast(state.weatherResponse.name ?? '');
+                    _fetchForecast(state.weatherResponse?.name ?? '');
                   }
                 },
                 child: BlocBuilder<GetWeatherBloc, GetWeatherState>(
@@ -51,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                       return const AppShimmerVerticalLoader(
                         height: 100,
                         width: double.infinity,
-                        itemCount: 5,
+                        itemCount: 10,
                         isCircular: false,
                         isRounded: true,
                         borderRadius: 10.0,
@@ -121,6 +123,33 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
+            ),
+            BlocBuilder<GetWeatherBloc, GetWeatherState>(
+              builder: (context, state) {
+                if (state is GetWeatherFailed) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const SizedBox(
+                        height: 200,
+                      ),
+                      NoDataView(
+                        errorMessage: state.errorMessage,
+                        onActionClicked: () => context.read<GetWeatherBloc>()
+                          ..add(
+                            GetWeather(
+                                weatherBody: WeatherBody(placename: 'Nairobi'),
+                                isSearchPage: false),
+                          ),
+                      ),
+                    ],
+                  );
+                }
+                return const SizedBox(
+                  height: 10,
+                );
+              },
             ),
           ],
         ),

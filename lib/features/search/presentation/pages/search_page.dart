@@ -3,6 +3,7 @@ import 'package:craftsiliconweather/core/common/constants/dimens.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_search_view.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_shimmer_vertical_loader.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_medium.dart';
+import 'package:craftsiliconweather/core/common/presentation/widgets/no_data_view.dart';
 import 'package:craftsiliconweather/core/common/utils/app_utils.dart';
 import 'package:craftsiliconweather/features/home/data/models/weather_body.dart';
 import 'package:craftsiliconweather/features/home/presentation/bloc/search_weather_bloc.dart';
@@ -13,6 +14,8 @@ import 'package:craftsiliconweather/features/home/presentation/widgets/weather_h
 import 'package:craftsiliconweather/themes/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+String searchterm = '';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -83,6 +86,7 @@ class SearchPage extends StatelessWidget {
                       context.read<SearchWeatherBloc>().add(SearchWeather(
                           isSearchPage: true,
                           weatherBody: WeatherBody(placename: term)));
+                      searchterm = term;
                     }),
                 BlocBuilder<SearchWeatherBloc, SearchWeatherState>(
                   builder: (context, state) {
@@ -94,6 +98,18 @@ class SearchPage extends StatelessWidget {
                         isCircular: false,
                         isRounded: true,
                         borderRadius: 10.0,
+                      );
+                    }
+
+                    if (state is SearchWeatherFailed) {
+                      return NoDataView(
+                        errorMessage: 'Something went wrong :)',
+                        onActionClicked: () => context
+                            .read<SearchWeatherBloc>()
+                            .add(SearchWeather(
+                                isSearchPage: true,
+                                weatherBody:
+                                    WeatherBody(placename: searchterm))),
                       );
                     }
 

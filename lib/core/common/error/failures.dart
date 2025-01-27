@@ -22,6 +22,7 @@ class DatabaseFailure extends Failure {
   List<Object?> get props => ['Database Error occurred.'];
 }
 
+
 class ConnectionFailure extends Failure {
   @override
   List<Object?> get props => ['Failed to connect to the network'];

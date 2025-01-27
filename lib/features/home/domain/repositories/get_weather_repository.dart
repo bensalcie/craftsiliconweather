@@ -6,6 +6,8 @@ import 'package:dartz/dartz.dart';
 abstract class GetWeatherRepository {
   /// Get Weather
   /// [getWeather]
-  Future<Either<Failure, WeatherResponse>> getWeather(
+  Future<Either<Failure, WeatherResponse>> getWeatherRemote(
       {required WeatherBody weatherParams});
+
+  Future<Either<Failure, WeatherResponse?>> getWeatherLocal();
 }

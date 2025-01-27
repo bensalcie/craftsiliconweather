@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -141,5 +143,22 @@ class StorageUtils {
 
     // Return the cleaned list (with or without the item)
     return cleanedData;
+  }
+
+  /// Save a class object as JSON string
+  Future<bool> saveJsonData<T>(
+      String key, Map<String, dynamic> Function() toJson) async {
+    if (storage == null) return false;
+    String jsonData = jsonEncode(toJson());
+    return await storage!.setString(key, jsonData);
+  }
+
+  /// Retrieve data and map it back to the class object
+  T? getJsonData<T>(String key, T Function(Map<String, dynamic>) fromJson) {
+    if (storage == null) return null;
+    String? jsonData = storage!.getString(key);
+    if (jsonData == null) return null;
+    Map<String, dynamic> jsonMap = jsonDecode(jsonData);
+    return fromJson(jsonMap);
   }
 }

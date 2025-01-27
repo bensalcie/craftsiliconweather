@@ -9,7 +9,7 @@ class WeatherSummarySmall extends StatelessWidget {
     required this.weather,
   });
 
-  final WeatherResponse weather;
+  final WeatherResponse? weather;
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +19,22 @@ class WeatherSummarySmall extends StatelessWidget {
         WeatherDetailCard(
           icon: Icons.water_drop_outlined,
           label: "Humidity",
-          value: "${weather.main?.humidity ?? 0}%",
+          value: "${weather?.main?.humidity ?? 0}%",
         ),
         WeatherDetailCard(
           icon: Icons.air,
           label: "Wind Speed",
-          value: "${weather.wind?.speed ?? 0} m/s",
+          value: "${weather?.wind?.speed ?? 0} m/s",
         ),
         WeatherDetailCard(
           icon: Icons.wb_sunny_outlined,
           label: "Sunrise",
-          value: formatTime(weather.sys?.sunrise),
+          value: formatTime(weather?.sys?.sunrise),
         ),
         WeatherDetailCard(
           icon: Icons.nights_stay_outlined,
           label: "Sunset",
-          value: formatTime(weather.sys?.sunset),
+          value: formatTime(weather?.sys?.sunset),
         ),
       ],
     );

@@ -1,4 +1,6 @@
+import 'package:craftsiliconweather/core/common/constants/dimens.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_shimmer_grid_vertical_loader.dart';
+import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_small_no_tap.dart';
 import 'package:craftsiliconweather/core/common/utils/app_utils.dart';
 import 'package:craftsiliconweather/features/home/data/models/forecast_response.dart';
 import 'package:craftsiliconweather/features/home/presentation/bloc/get_forecast_bloc.dart';
@@ -98,23 +100,20 @@ class ForecastSection extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            Text(
-                              "${item.main.tempMin.toStringAsFixed(1)}°C",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                              ),
+                            const SizedBox(width: elements_small_padding),
+                            AppTextViewSubtitleSmallNoTap(
+                              maxLines: 1,
+                              text: "${item.main.tempMin.toStringAsFixed(1)}°C",
+                              textAlign: TextAlign.start,
                             ),
-                            const SizedBox(width: 16),
-                            Text(
+                            const SizedBox(width: app_small_padding),
+                            AppTextViewSubtitleSmallNoTap(
+                              textAlign: TextAlign.start,
+                              padding: 0,
+                              maxLines: 1,
                               // Use description from the first Weather object
-                              item.weather.first.description
+                              text: item.weather.first.description
                                   .capitalizeFirstLetter(),
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 14,
-                              ),
                             ),
                           ],
                         ),

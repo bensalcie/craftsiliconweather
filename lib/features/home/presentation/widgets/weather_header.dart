@@ -24,7 +24,7 @@ class WeatherHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                weather?.name ?? 'Search city...',
+                weather?.name ?? 'No city Found',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,

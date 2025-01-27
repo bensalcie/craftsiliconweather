@@ -1,3 +1,5 @@
+import 'package:craftsiliconweather/core/common/constants/app_strings.dart';
+import 'package:craftsiliconweather/core/common/data/datasources/local/storage_utils.dart';
 import 'package:craftsiliconweather/core/common/network/dio_config.dart';
 import 'package:craftsiliconweather/features/home/data/models/forecast_body.dart';
 import 'package:craftsiliconweather/features/home/data/models/forecast_response.dart';
@@ -15,20 +17,25 @@ abstract class GetForecastRemoteDataSource {
 @LazySingleton(as: GetForecastRemoteDataSource)
 class GetForecastRemoteDataSourceImpl implements GetForecastRemoteDataSource {
   final DioClient _client;
+  final StorageUtils storageUtils;
 
-  GetForecastRemoteDataSourceImpl(this._client);
+  GetForecastRemoteDataSourceImpl(this._client, this.storageUtils);
 
   @override
   Future<ForecastResponse> getForecast({required ForecastBody payload}) async {
     try {
-      final response = await _client.get('/forecast',
-          queryParameters: payload.toJson());
+      final response =
+          await _client.get('/forecast', queryParameters: payload.toJson());
+
       if (kDebugMode) {
         print('GetForecastRemoteDataSource response: $response');
       }
+      final forecastResponse = ForecastResponse.fromJson(response);
 
-      final res = ForecastResponse.fromJson(response);
-      return res;
+      //Persist on Local storage.
+
+      await storageUtils.saveJsonData(weatherkey, forecastResponse.toJson);
+      return forecastResponse;
     } catch (e) {
       if (kDebugMode) {
         print('GetForecastRemoteDataSource response: $e');

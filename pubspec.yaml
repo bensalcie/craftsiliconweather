@@ -51,6 +51,7 @@ dependencies:
   intl: ^0.20.2
   permission_handler: ^11.3.1
   geolocator: ^13.0.2
+  flutter_launcher_icons: ^0.14.3
   
 
 dev_dependencies:

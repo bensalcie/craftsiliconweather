@@ -11,7 +11,7 @@ class WeatherResponse {
   int? timezone;
   int? id;
   String? name;
-  int? cod;
+  dynamic cod;
 
   WeatherResponse(
       {required this.coord,

@@ -7,13 +7,14 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class GetWeatherUseCase implements UseCase<WeatherResponse, WeatherBody> {
+class GetWeatherRemoteUseCase implements UseCase<WeatherResponse, WeatherBody> {
   final GetWeatherRepository _dealsRepository;
 
-  GetWeatherUseCase(this._dealsRepository);
+  GetWeatherRemoteUseCase(this._dealsRepository);
+
 
   @override
   Future<Either<Failure, WeatherResponse>> call(WeatherBody params) async {
-    return await _dealsRepository.getWeather(weatherParams: params);
+    return await _dealsRepository.getWeatherRemote(weatherParams: params);
   }
 }

@@ -2,6 +2,7 @@ import 'package:craftsiliconweather/core/common/constants/dimens.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_button.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_medium.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_small.dart';
+import 'package:craftsiliconweather/core/common/utils/internet_checker.dart';
 import 'package:craftsiliconweather/features/home/presentation/bloc/location_permission_bloc.dart';
 import 'package:craftsiliconweather/features/home/presentation/bloc/location_permission_event.dart';
 import 'package:craftsiliconweather/themes/theme.dart';
@@ -225,3 +226,10 @@ String getDayOfWeek(int timestamp) {
   return '$dayOfWeek, $dayOfMonth';
 }
 
+// Check for bandwidth by making a small request to a reliable server
+Future<bool?> checkIfInternetIsAvailable() async {
+  // Check if Internet connection is available
+  final internetChecker = InternetChecker();
+
+  return internetChecker.isInternetAvailable();
+}

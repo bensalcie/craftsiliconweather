@@ -12,7 +12,7 @@ class GetWeatherInitial extends GetWeatherState {}
 class GetWeatherLoading extends GetWeatherState {}
 
 class GetWeatherSuccess extends GetWeatherState {
-  final WeatherResponse weatherResponse;
+  final WeatherResponse? weatherResponse;
 
   const GetWeatherSuccess({required this.weatherResponse});
 
@@ -24,4 +24,10 @@ class GetWeatherFailed extends GetWeatherState {
   final String errorMessage;
 
   const GetWeatherFailed({required this.errorMessage});
+}
+
+class GetLocalWeatherFailed extends GetWeatherState {
+  final String errorMessage;
+
+  const GetLocalWeatherFailed({required this.errorMessage});
 }

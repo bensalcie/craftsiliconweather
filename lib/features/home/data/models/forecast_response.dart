@@ -7,9 +7,9 @@ String forecastResponseToJson(ForecastResponse data) =>
     json.encode(data.toJson());
 
 class ForecastResponse {
-  String cod;
-  int message;
-  int cnt;
+  String? cod;
+  int? message;
+  int? cnt;
   List<ListElement> list;
   City city;
 
