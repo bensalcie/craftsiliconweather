@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:craftsiliconweather/core/common/constants/dimens.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_shimmer_grid_vertical_loader.dart';
 import 'package:craftsiliconweather/core/common/presentation/widgets/app_textview_small_no_tap.dart';
@@ -81,13 +82,20 @@ class ForecastSection extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 16),
-                            Image.network(
-                              // Load the weather icon using the "icon" field from Weather
-                              "https://openweathermap.org/img/wn/${item.weather.first.icon}@2x.png",
+                            CachedNetworkImage(
+                              imageUrl:
+                                  "https://openweathermap.org/img/wn/${item.weather.first.icon}@2x.png",
                               width: 30,
                               color: Colors.orange.shade400,
                               height: 30,
-                            ),
+                              errorWidget: (context, url, error) => Image.asset(
+                                // Load the weather icon using the "icon" field from Weather
+                                'assets/images/logo.png',
+                                width: 30,
+                                color: Colors.orange.shade400,
+                                height: 30,
+                              ),
+                            )
                           ],
                         ),
                         Row(

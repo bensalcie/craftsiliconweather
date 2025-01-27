@@ -34,7 +34,15 @@ class GetForecastRemoteDataSourceImpl implements GetForecastRemoteDataSource {
 
       //Persist on Local storage.
 
-      await storageUtils.saveJsonData(weatherkey, forecastResponse.toJson);
+      try {
+        debugPrint("Starting saving==>  ${forecastResponse.toJson()}");
+
+        await storageUtils.saveJsonData(forecastkey, forecastResponse.toJson);
+        debugPrint(
+            "Starting saving ...finished==>  ${forecastResponse.toJson()}");
+      } catch (e) {
+        debugPrint("Unable to Save Local DATA: Reason: $e");
+      }
       return forecastResponse;
     } catch (e) {
       if (kDebugMode) {
