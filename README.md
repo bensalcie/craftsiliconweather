@@ -3,10 +3,8 @@ A modern, mobile weather application that fetches and displays weather data from
 
 ---
 
-https://github.com/bensalcie/craftsiliconweather/blob/main/resources/Screen_Recording_20250127_122159.mov
-Video Walkthrough
-:-: | :-:
-<video src='resources/Screen_Recording_20250127_122159.mov' width=180 />
+[![Watch the video](resources/Screenshot_20250127_122253.jpg)](resources/Screen_Recording_20250127_122159.mov)
+
 
 ## Features ✨  
 - **Real-time Weather Data**: Displays current weather (temperature, wind speed, humidity) for the selected city.  
