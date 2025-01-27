@@ -19,7 +19,10 @@ This app is built following **Clean Architecture** principles, ensuring separati
 
 ---
 
-## Installation and Setup 🛠️  
+## Installation and Setup 🛠️ 
+
+## Quick Testing 
+Download Sample apk [Here](https://github.com/bensalcie/craftsiliconweather/blob/main/resources/craftsilicontestapp.apk)
 
 
 ### Prerequisites  
